@@ -63,7 +63,7 @@
 
     <main class="z-1">
 
-        <div class="md:mt-8 mt-5 mb-5 md:mx-10 mx-5">
+        <div class="md:mt-8 mt-5 mb-5 md:mx-10 mx-5" id="report-downloads-tab">
             <ul data-tabs-toggle="" role="tablist" data-tabs-active-classes="text-[#FBB04B] border-b-4 border-[#FBB04B]"
                 data-tabs-inactive-classes="text-[#154e49]"
                 class="flex flex-wrap justify-around text-sm md:text-xl font-bold  drop-shadow-lg">
@@ -84,7 +84,7 @@
         <div id="reports-downloads-div">
             <div id="reports-div">
 
-                <div class="md:mb-10 mb-5 md:mx-20 mx-5">
+                <div class="md:mb-10 mb-5 md:mx-20 mx-5" id="date-month-year-tab">
                     <ul data-tabs-toggle="" role="tablist" data-tabs-active-classes="text-[#FBB04B]"
                         data-tabs-inactive-classes="text-white"
                         class="flex flex-wrap justify-around rounded-xl text-sm md:text-base font-medium border-b border-[#154e49] bg-[#154e49]">
@@ -122,7 +122,7 @@
                                     </svg>
                                 </div>
                                 <input datepicker datepicker-autohide datepicker datepicker-format="yyyy-mm-dd"
-                                    datepicker-buttons datepicker-autoselect-today id="date" type="text"
+                                    datepicker-buttons datepicker-autoselect-today autocomplete="off"  id="date" type="text"
                                     class="text-[#154e49] bg-gray-50 border border-[#154e49] rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5"
                                     placeholder="Select date">
                                 <button type="submit"
@@ -153,7 +153,7 @@
 
                             </div>
 
-                            <div class="flex items-center">
+                            <div class="flex items-center justify-between">
 
                                 <div id="date-pagination" class="flex mt-5 lg:mx-[8.5rem] md:mx-20 mx-10">
                                     <!-- Buttons -->
@@ -176,7 +176,7 @@
                                 </div>
     
                                 <div id="date-download-btn" hidden
-                                    class="relative mt-5 xl:mx-[40rem] lg:mx-[30rem] md:mx-[22rem] mx-20  md:drop-shadow-md">
+                                    class="relative mt-5 xl:mx-[40rem] lg:mx-[30rem] md:mx-[22rem] mx-10  md:drop-shadow-md">
                                     <button type=""
                                         class="w-fit text-white py-3 px-4 rounded-full bg-[#154e49] font-semibold md:font-bold  md:text-sm text-xs">DOWNLOAD</button>
                                 </div>
@@ -213,7 +213,7 @@
                         <div id="month-report-div">
 
                             <div
-                                class="relative overflow-x-auto w-4/5  mt-10 lg:mx-[8.5rem] md:mx-20 mx-10 rounded-t-3xl md:drop-shadow-md ">
+                                class="relative overflow-x-auto w-4/5  mt-10 lg:mx-[8.5rem] md:mx-20 mx-3 rounded-t-3xl md:drop-shadow-md ">
                                 <table id="month-report" hidden class="w-full text-sm text-white text-center">
     
                                     <thead class="uppercase text-xs bg-[#154e49]">
@@ -231,14 +231,14 @@
                                 </table>
                             </div>
     
-                            <div class="flex items-center">
+                            <div class="flex items-center justify-between">
 
                                 <div id="month-pagination" class="flex mt-5 lg:mx-[8.5rem] md:mx-20 mx-10">
                                     
                                 </div>
     
                                 <div id="month-download-btn" hidden
-                                    class="relative mt-5 xl:mx-[40rem] lg:mx-[25rem] md:mx-[15rem] mx-8  md:drop-shadow-md">
+                                    class="relative mt-5 xl:mx-[40rem] lg:mx-[25rem] md:mx-[15rem] mx-2  md:drop-shadow-md">
                                     <button type=""
                                         class="w-fit text-white py-3 px-4 rounded-full bg-[#154e49] font-semibold md:font-bold  md:text-sm text-xs">DOWNLOAD</button>
                                 </div>
@@ -297,14 +297,14 @@
                             </div>
     
 
-                            <div class="flex items-center">
+                            <div class="flex items-center justify-between">
 
                                 <div id="year-pagination" class="flex mt-5 lg:mx-[8.5rem] md:mx-20 mx-10">
                                     
                                 </div>
     
                                 <div id="year-download-btn" hidden
-                                    class="relative mt-5 xl:mx-[40rem] lg:mx-[25rem] md:mx-[15rem] mx-8  md:drop-shadow-md">
+                                    class="relative mt-5 xl:mx-[40rem] lg:mx-[25rem] md:mx-[15rem] mx-2  md:drop-shadow-md">
                                     <button type=""
                                         class="w-fit text-white py-3 px-4 rounded-full bg-[#154e49] font-semibold md:font-bold  md:text-sm text-xs">DOWNLOAD</button>
                                 </div>
