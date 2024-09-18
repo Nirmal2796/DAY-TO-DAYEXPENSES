@@ -3,6 +3,7 @@ const { Op } = require("sequelize");
 
 const S3Services=require('../services/S3Services');
 const UserServices=require('../services/userServices');
+const pageDataService=require('../services/pageDataService');
 
 const Downloads=require('../models/downloads');
 
@@ -53,7 +54,7 @@ exports.downloadMonthlyReport = async (req, res) => {
 
         const fileName = `${req.user.id}/${new Date()}.txt`;
 
-        const fileURL = await uploadToS3(stringifiedExpenses, fileName);
+        const fileURL = await S3Services.uploadToS3(stringifiedExpenses, fileName);
 
         res.status(200).json({ fileURL: fileURL, success: true });
 
@@ -79,7 +80,7 @@ exports.downloadYearlyReport = async (req, res) => {
 
         const fileName = `${req.user.id}/${new Date()}.txt`;
 
-        const fileURL = await uploadToS3(stringifiedExpenses, fileName);
+        const fileURL = await S3Services.uploadToS3(stringifiedExpenses, fileName);
 
         res.status(200).json({ fileURL: fileURL, success: true });
 
@@ -104,15 +105,17 @@ exports.showDownloads=async (req,res)=>{
             limit:downloads_per_page
         });
 
-        const pageData={
-            currentPage:page,
-            hasNextPage: downloads_per_page* page < totalDownloads,
-            nextPage:page+1,
-            hasPreviousPage:page>1,
-            previousPage:page-1,
-            total:totalDownloads,
-            lastPage:Math.ceil(totalDownloads/downloads_per_page)
-        }
+        // const pageData={
+        //     currentPage:page,
+        //     hasNextPage: downloads_per_page* page < totalDownloads,
+        //     nextPage:page+1,
+        //     hasPreviousPage:page>1,
+        //     previousPage:page-1,
+        //     total:totalDownloads,
+        //     lastPage:Math.ceil(totalDownloads/downloads_per_page)
+        // }
+
+        const pageData= pageDataService.pageData(page,downloads_per_page,totalDownloads);
 
 
         res.status(200).json({downloads,pageData});

@@ -5,22 +5,7 @@ const { Op } = require("sequelize");
 
 
 const UserServices=require('../services/userServices');
-
-
-function pageData(page,expenses_per_page,totalExpenses){
-
-    const pageData={
-        currentPage:page,
-        hasNextPage: expenses_per_page* page < totalExpenses,
-        nextPage:page+1,
-        hasPreviousPage:page>1,
-        previousPage:page-1,
-        total:totalExpenses,
-        lastPage:Math.ceil(totalExpenses/expenses_per_page)
-    }
-
-    return pageData;
-}
+const pageDataService=require('../services/pageDataService');
 
 exports.getReport = async (req, res) => {
     try {
@@ -49,7 +34,7 @@ exports.getReport = async (req, res) => {
             //     lastPage:Math.ceil(totalExpenses/expenses_per_page)
             // }
 
-            const pageData=pageData(page,expenses_per_page,totalExpenses);
+            const pageData=pageDataService.pageData(page,expenses_per_page,totalExpenses);
 
             res.status(200).json({expenses,pageData});
 
@@ -90,7 +75,7 @@ exports.getMonthReport = async (req, res) => {
                 //     lastPage:Math.ceil(totalExpenses/expenses_per_page)
                 // }
 
-                const pageData=pageData(page,expenses_per_page,totalExpenses);
+                const pageData=pageDataService.pageData(page,expenses_per_page,totalExpenses);
 
 
         // console.log(year);
@@ -148,7 +133,7 @@ exports.getYearReport = async (req, res) => {
         //     lastPage:Math.ceil(totalExpenses/expenses_per_page)
         // }
 
-        const pageData=pageData(page,expenses_per_page,totalExpenses);
+        const pageData=pageDataService.pageData(page,expenses_per_page,totalExpenses);
 
         res.status(200).json({expenses,pageData});
 
