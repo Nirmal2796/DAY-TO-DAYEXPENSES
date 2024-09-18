@@ -215,7 +215,7 @@ async function removeExpense(id) {
         else{
             getExpenses(1,0,rowsperpage);
         }
-        // showLeaderBoard();
+       
 
     }
     catch (err) {
@@ -324,9 +324,12 @@ function showPagination(pageData) {
 
       
         const prevBtn = document.createElement('button');
-        prevBtn.innerHTML = pageData.previousPage;
+        prevBtn.innerHTML = `<svg class="w-3.5 h-3.5 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
+                                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 5H1m0 0 4 4M1 5l4-4"/>
+                                          </svg>
+                                       `;
         prevBtn.setAttribute('id',pageData.previousPage);
-        prevBtn.classList.add('px-3', 'h-8', 'text-sm', 'font-medium', 'text-white', 'bg-[#154e49]', 'hover:text-[#FBB04B]', 'hover:underline', 'hover:scale-125', 'rounded-full');
+        prevBtn.classList.add('px-2','mx-1', 'h-8', 'text-sm', 'font-medium', 'text-white', 'bg-[#154e49]', 'hover:text-[#FBB04B]', 'hover:underline', 'hover:scale-125', 'rounded-full');
         // prevBtn.addEventListener('click',()=>getExpenses(pageData.previouePage,rowsperpage.value)); 
 
         prevBtn.addEventListener('click', () => getExpenses(pageData.previousPage,0,rowsperpage));
@@ -351,9 +354,11 @@ function showPagination(pageData) {
     if (pageData.hasNextPage) {
 
         const nextBtn = document.createElement('button');
-        nextBtn.innerHTML = pageData.nextPage;
+        nextBtn.innerHTML =  `<svg class="w-3.5 h-3.5  rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
+        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5h12m0 0L9 1m4 4L9 9"/>
+      </svg>`;
         nextBtn.setAttribute('id',pageData.nextPage);
-        nextBtn.classList.add('px-3', 'h-8', 'text-sm', 'font-medium', 'text-white', 'bg-[#154e49]', 'hover:text-[#FBB04B]', 'hover:underline', 'hover:scale-125', 'rounded-full');
+        nextBtn.classList.add('px-2','mx-1', 'h-8', 'text-sm', 'font-medium', 'text-white', 'bg-[#154e49]', 'hover:text-[#FBB04B]', 'hover:underline', 'hover:scale-125', 'rounded-full');
 
         nextBtn.addEventListener('click', () => getExpenses(pageData.nextPage,0,rowsperpage));
 
