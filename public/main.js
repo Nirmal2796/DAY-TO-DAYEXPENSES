@@ -57,7 +57,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     password: login_password.value
                 };
 
-                const result = await axios.post("http://localhost:3000/login", User);
+                const result = await axios.post("http://3.88.62.108:3000/login", User);
 
                 // alert('User Logged In Successfully');
 
@@ -121,7 +121,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 };
 
                 // console.log(User)
-                const result = await axios.post("http://localhost:3000/signup", User);
+                const result = await axios.post("http://3.88.62.108:3000/signup", User);
                 signup_form.reset();
                 // console.log(result);
                 
