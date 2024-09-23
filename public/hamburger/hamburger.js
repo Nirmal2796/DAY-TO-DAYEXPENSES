@@ -11,9 +11,9 @@ function onToggleMenu(e) {
     navLinks.classList.toggle('z-40');
     navLinks.classList.toggle('hidden');
 
-    slideover_bg.classList.toggle('invisible');
-    slideover_bg.classList.toggle('opacity-0');
-    slideover_bg.classList.toggle('opacity-50');
+    slideover_bg.classList.toggle('hidden');
+    // slideover_bg.classList.toggle('opacity-0');
+    // slideover_bg.classList.toggle('opacity-50');
     slideover_bg.classList.toggle('z-10');
 
 }
