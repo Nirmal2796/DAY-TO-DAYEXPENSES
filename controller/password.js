@@ -94,7 +94,7 @@ exports.resetPassword = async (req, res) => {
 
             await request.update({ isActive: false });
 
-
+            res.set('Cache-Control', 'no-cache, no-store, must-revalidate');
             res.status(200).send(`<html lang="en">
 
                                                 <head>
