@@ -60,6 +60,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 const result = await axios.post("http://3.88.62.108:3000/login", User);
 
                 // alert('User Logged In Successfully');
+                login_form.reset();
 
                 alert(result.data.message);
 
@@ -67,7 +68,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 localStorage.setItem('token', result.data.token);
                 window.location.href = '../dashboard/home.html';
 
-                login_form.reset();
             }
             catch (err) {
 
@@ -131,9 +131,9 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             catch (err) {
 
+                signup_form.reset();
                 signup_error.innerHTML = `Error: ${err.response.data}`;
                 // console.log(err);
-                signup_form.reset();
 
             }
 

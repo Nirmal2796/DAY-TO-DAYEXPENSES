@@ -30,15 +30,17 @@ const forgot_form = document.getElementById('forgot-form');
 
                 // console.log(Email);
 
-                const result = await axios.post("http://localhost:3000/forgotpassword", Email);
-
-                // console.log(result);
+                const result = await axios.post("http://3.88.62.108:3000/forgotpassword", Email);
 
                 forgot_form.reset();
+
+                alert('Reset Email sent successfully..Please check Your Mail!!');
+
             }
             catch (err) {
 
-                forgot_error.innerHTML = `Error: ${err.response.message}`;
+                // console.log(err)
+                forgot_error.innerHTML = `Error: ${err.response.data.message}`;
 
                 setTimeout(() => {
                     forgot_error.removeChild(forgot_error.firstChild);

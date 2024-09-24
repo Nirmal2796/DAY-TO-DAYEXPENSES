@@ -22,7 +22,7 @@ exports.forgotPassword = async (req, res) => {
 
         const client = Sib.ApiClient.instance;
         const apiKey = client.authentications['api-key'];
-        apiKey.apiKey = process.env.SMTP_API_KEY;
+        apiKey.apiKey = process.env.SENDINBLUE_API_KEY;
 
         const tranEmailApi = new Sib.TransactionalEmailsApi();
 
@@ -62,12 +62,14 @@ exports.forgotPassword = async (req, res) => {
 
             await t.commit();
 
+            res.status(200).json({success: true});
+
 
         }
-        else{
-            throw new Error('User does not exist');
+        else {
+            res.status(404).json({ message: 'User not found'});
         }
-
+        
         
         // console.log(response);
 
@@ -75,7 +77,7 @@ exports.forgotPassword = async (req, res) => {
     catch (err) {
         await t.rollback();
         console.log(err);
-        res.status(500).json({ success: false, message: err });
+        res.status(500).json({ success: false, message: 'Something went wrong' });
     }
 
 }
