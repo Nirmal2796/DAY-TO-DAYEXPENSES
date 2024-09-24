@@ -88,7 +88,11 @@ const postLoginUser = async (req, res) => {
 };
 
 
+const getLogoutUser=async(req,res)=>{
+    // console.log('in logout');
+    res.set('Cache-Control', 'no-cache, no-store, must-revalidate');
+    res.redirect('/');
+}
 
 
-
-module.exports={postLoginUser,postSignupUser};
+module.exports={postLoginUser,postSignupUser,getLogoutUser};
