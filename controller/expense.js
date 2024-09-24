@@ -4,21 +4,8 @@ const sequelize = require('../util/database');
 
 const UserServices=require('../services/userServices');
 
+const pageDataService=require('../services/pageDataService');
 
-function pageData(page,expenses_per_page,totalExpenses){
-
-    const pageData={
-        currentPage:page,
-        hasNextPage: expenses_per_page* page < totalExpenses,
-        nextPage:page+1,
-        hasPreviousPage:page>1,
-        previousPage:page-1,
-        total:totalExpenses,
-        lastPage:Math.ceil(totalExpenses/expenses_per_page)
-    }
-
-    return pageData;
-}
 
 exports.getExpenses = async (req, res) => {
     try {
@@ -35,7 +22,7 @@ exports.getExpenses = async (req, res) => {
 
         // const pageData=pageData(page,expenses_per_page,totalExpenses);
 
-        res.status(200).json({expenses,pageData:pageData(page,expenses_per_page,totalExpenses)});
+        res.status(200).json({expenses,pageData:pageDataService.pageData(page,expenses_per_page,totalExpenses)});
     }
     catch (err) {
         console.log(err);
@@ -80,7 +67,7 @@ exports.addExpense = async (req, res) => {
         // const pageData=pageData(page,expenses_per_page,totalExpensesPage);
 
 
-        res.status(201).json({ newExpense: expense , pageData:pageData(page,expenses_per_page,totalExpensesPage)});
+        res.status(201).json({ newExpense: expense , pageData:pageDataService.pageData(page,expenses_per_page,totalExpensesPage)});
     }
     catch (err) {
         await t.rollback();
@@ -118,7 +105,7 @@ exports.deleteExpense = async (req, res) => {
 
         // await t.commit();
 
-        res.status(200).json({expense,pageData:pageData(page,expenses_per_page,totalExpensesPage)});
+        res.status(200).json({expense,pageData:pageDataService.pageData(page,expenses_per_page,totalExpensesPage)});
     }
     catch (err) {
         await t.rollback();
