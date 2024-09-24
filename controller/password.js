@@ -64,6 +64,9 @@ exports.forgotPassword = async (req, res) => {
 
 
         }
+        else{
+            throw new Error('User does not exist');
+        }
 
         
         // console.log(response);
@@ -72,7 +75,7 @@ exports.forgotPassword = async (req, res) => {
     catch (err) {
         await t.rollback();
         console.log(err);
-        res.status(500).json({ success: false, message: 'Something went wrong' });
+        res.status(500).json({ success: false, message: err });
     }
 
 }

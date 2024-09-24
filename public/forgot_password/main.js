@@ -30,7 +30,7 @@ const forgot_form = document.getElementById('forgot-form');
 
                 // console.log(Email);
 
-                const result = await axios.post("http://3.88.62.108:3000/forgotpassword", Email);
+                const result = await axios.post("http://localhost:3000/forgotpassword", Email);
 
                 // console.log(result);
 
@@ -38,7 +38,7 @@ const forgot_form = document.getElementById('forgot-form');
             }
             catch (err) {
 
-                forgot_error.innerHTML = `Error: ${err.message} , ${err.response.data}`;
+                forgot_error.innerHTML = `Error: ${err.response.message}`;
 
                 setTimeout(() => {
                     forgot_error.removeChild(forgot_error.firstChild);
