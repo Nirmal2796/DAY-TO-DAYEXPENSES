@@ -18,8 +18,7 @@ function onToggleMenu(e) {
 
 }
 
-async function onClickLogOut(e){
+function onClickLogOut(e){
     localStorage.clear();
-    const result = await axios.get('/logout');
-    // window.location.replace("http://3.88.62.108:3000/");
+    window.location.replace("http://3.88.62.108/");
 }
