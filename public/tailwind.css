@@ -19,7 +19,7 @@
 } 
 
 .signup-mode-login-div{
-      @apply rotate-180  translate-x-20 md:-translate-x-40 lg:-translate-x-24 pointer-events-auto opacity-100
+      @apply rotate-180  translate-x-20 md:-translate-x-40 lg:-translate-x-28 pointer-events-auto opacity-100
 }
 
 .signup-mode-img1{
