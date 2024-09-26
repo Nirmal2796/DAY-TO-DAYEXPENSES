@@ -33,6 +33,7 @@ document.querySelector('#btn-sign-panel').addEventListener('click', () => {
 })
 
 document.querySelector('#btn-login-panel').addEventListener('click', ()=>{
+    
     circle.classList.remove('signup-mode-circle');
 
     signup_div.classList.remove('signup-mode-signup-div');
