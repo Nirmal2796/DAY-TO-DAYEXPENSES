@@ -1050,8 +1050,8 @@ input:checked + .toggle-bg {
 .-top-1 {
   top: -0.25rem;
 }
-.-top-\[30rem\] {
-  top: -30rem;
+.-top-\[35rem\] {
+  top: -35rem;
 }
 .bottom-0 {
   bottom: 0px;
@@ -1277,6 +1277,9 @@ input:checked + .toggle-bg {
 }
 .w-80 {
   width: 20rem;
+}
+.w-96 {
+  width: 24rem;
 }
 .w-\[200px\] {
   width: 200px;
@@ -1722,11 +1725,11 @@ input:checked + .toggle-bg {
 .opacity-0 {
   opacity: 0;
 }
+.opacity-10 {
+  opacity: 0.1;
+}
 .opacity-100 {
   opacity: 1;
-}
-.opacity-20 {
-  opacity: 0.2;
 }
 .shadow {
   --tw-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
