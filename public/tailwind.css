@@ -11,7 +11,7 @@
     @apply ease-in-out duration-1000
 }
 .signup-mode-circle{
-    @apply rotate-180  translate-x-[150px] md:translate-x-[600px] lg:translate-x-[1000px]
+    @apply rotate-180  translate-y-[700px] md:translate-x-[900px] md:translate-y-0 lg:translate-x-[1000px] lg:translate-y-0
 }
 
 .signup-mode-signup-div{
@@ -27,7 +27,7 @@
 }
 
 .signup-mode-img2{
-    @apply md:translate-y-[200px] lg:translate-y-[500px] translate-y-[700px]
+    @apply md:translate-y-[400px] lg:translate-y-[500px] translate-y-[550px]
 }
 
 
