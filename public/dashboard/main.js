@@ -343,7 +343,7 @@ function showPagination(pageData) {
     const currentBtn = document.createElement('button');
     currentBtn.innerHTML = pageData.currentPage;
     currentBtn.setAttribute('id',pageData.currentPage);
-    currentBtn.classList.add('px-3', 'h-8', 'text-sm', 'font-medium', 'text-white', 'bg-[#154e49]', 'hover:text-[#FBB04B]', 'hover:underline', 'hover:scale-125', 'rounded-full');
+    currentBtn.classList.add('px-3', 'h-8', 'text-sm', 'font-bold', 'text-[#154e49]', 'bg-white', 'underline','border','border-[#154e49]','hover:border-[#FBB04B]', 'hover:font-bold','hover:text-[#FBB04B]', 'hover:scale-125', 'rounded-full');
    
     currentBtn.addEventListener('click', () => getExpenses(pageData.currentPage,0,rowsperpage));
 

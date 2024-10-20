@@ -5,6 +5,7 @@ module.exports = {
     "./public/dashboard/home.html",
     "./public/report/report.html",
     "./public/leaderboard/leaderboard.html",
+    "./public/**/*.{html,js}"
     
   ],
   theme: {
