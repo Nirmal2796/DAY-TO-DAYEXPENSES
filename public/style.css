@@ -1532,10 +1532,6 @@ input:checked + .toggle-bg {
   --tw-bg-opacity: 1;
   background-color: rgb(21 78 73 / var(--tw-bg-opacity));
 }
-.bg-\[\#FBB04B\] {
-  --tw-bg-opacity: 1;
-  background-color: rgb(251 176 75 / var(--tw-bg-opacity));
-}
 .bg-blue-700 {
   --tw-bg-opacity: 1;
   background-color: rgb(26 86 219 / var(--tw-bg-opacity));
@@ -1968,6 +1964,10 @@ input:checked + .toggle-bg {
 .hover\:bg-white:hover {
   --tw-bg-opacity: 1;
   background-color: rgb(255 255 255 / var(--tw-bg-opacity));
+}
+
+.hover\:font-bold:hover {
+  font-weight: 700;
 }
 
 .hover\:text-\[\#FBB04B\]:hover {
