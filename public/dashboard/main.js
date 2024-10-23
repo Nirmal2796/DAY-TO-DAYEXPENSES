@@ -20,6 +20,7 @@ document.addEventListener('DOMContentLoaded', DomLoad);
 
 //PAGE
 let lastPage=1;
+let currentPage;
 // let pageData;
 
 //token
@@ -157,6 +158,7 @@ async function getExpenses(page, flag,rowsPerPage) {
 
         // console.log(rowsperpage);
 
+        currentPage=page;
 
         // const token=localStorage.getItem('token');
         const res = await axios.get(`http://3.88.62.108:3000/get-expenses?page=${page}&limit=${rowsPerPage}`, { headers: { 'Auth': token } });
@@ -164,7 +166,7 @@ async function getExpenses(page, flag,rowsPerPage) {
         const expenses = res.data.expenses;
         // console.log(res.data.expenses);
         lastPage = res.data.pageData.lastPage;
-        pageData=res.data.pageData;
+       
 
         if (expenses.length > 0) {
 
@@ -203,7 +205,7 @@ async function removeExpense(id) {
         // const token=localStorage.getItem('token');
         const rowsperpage=localStorage.getItem('rowsPerPage');
 
-        const data = await axios.delete(`http://3.88.62.108:3000/delete-expense/${id}?page=${lastPage}&limit=${rowsperpage}`, { headers: { 'Auth': token } });
+        const data = await axios.delete(`http://3.88.62.108:3000/delete-expense/${id}?page=${currentPage}&limit=${rowsperpage}`, { headers: { 'Auth': token } });
         document.getElementById(id).remove();
         console.log(data.data.pageData);
         
@@ -211,6 +213,12 @@ async function removeExpense(id) {
         // if()
         if (Eul.rows.length <=1  && data.data.pageData.previousPage==0) {
             noRecordsAvailable();
+        }
+        else if(Eul.rows.length >1 && data.data.pageData.previousPage!=0){
+            getExpenses(data.data.pageData.currentPage,2,rowsperpage);
+        }
+        else if(Eul.rows.length <=1 && data.data.pageData.previousPage!=0){
+            getExpenses(data.data.pageData.previousPage,1,rowsperpage);
         }
         else{
             getExpenses(1,0,rowsperpage);
@@ -227,25 +235,34 @@ async function removeExpense(id) {
 //SHOW ADDED DATA ON SCREEN
 function showOnScreen(obj, flag) {
 
+    console.log(flag);
    
     if (flag == 1) {
         if(noExpenseRecords.classList.contains('hidden')){
             document.getElementById(lastPage).click();
         }
     }
-
-    const newRow = `<tr id=${obj.id}  class="list-group-item odd:bg-white even:bg-[#799e9b] text-[#154e49] font-semibold  border-b""> 
-    <td class="px-6 py-3">
-    ${obj.category} </td> 
-    <td class="px-6 py-4">${obj.amount} </td> 
-    <td class="px-6 py-4">${obj.description}</td> 
-    <td class="px-6 py-4"><ion-icon name="trash" onClick=removeExpense(${obj.id}) class="cursor-pointer hover:text-[#FBB04B] text-xl"></ion-icon>
-    </td>
-    </tr>`;
+    else if(flag == 2){
+        if(noExpenseRecords.classList.contains('hidden')){
+            document.getElementById(currentPage).click();
+        }
+    }
+    
 
 
-
-    Eul.getElementsByTagName('tbody')[0].insertAdjacentHTML('beforeend', newRow);
+        const newRow = `<tr id=${obj.id}  class="list-group-item odd:bg-white even:bg-[#799e9b] text-[#154e49] font-semibold  border-b""> 
+        <td class="px-6 py-3">
+        ${obj.category} </td> 
+        <td class="px-6 py-4">${obj.amount} </td> 
+        <td class="px-6 py-4">${obj.description}</td> 
+        <td class="px-6 py-4"><ion-icon name="trash" onClick=removeExpense(${obj.id}) class="cursor-pointer hover:text-[#FBB04B] text-xl"></ion-icon>
+        </td>
+        </tr>`;
+    
+    
+    
+        Eul.getElementsByTagName('tbody')[0].insertAdjacentHTML('beforeend', newRow);
+    
 
 }
 
