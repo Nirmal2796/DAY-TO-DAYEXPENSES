@@ -13,7 +13,6 @@ const app=express();
 
 const bodyParser=require('body-parser');
 
-
 const sequelize=require('./util/database');
 
 const User=require('./models/user');
@@ -55,8 +54,8 @@ app.use((req,res) => {
     res.sendFile(path.join(__dirname, `public/${req.url}`));
 });
 
-User.hasMany(Expense);
-Expense.belongsTo(User);
+User.hasMany(Expense); //one to many
+Expense.belongsTo(User); //one to one
 
 User.hasMany(Order);
 Order.belongsTo(User);
