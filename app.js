@@ -37,8 +37,10 @@ app.use(morgan('combined',{stream:accessLogStream}));
 
 app.use(cors());
 
+//express.static() is a function that takes a path, and returns a middleware that serves all files in that path.
 app.use(express.static(path.join(__dirname, 'public')));
 
+//option {extended:false} configures the middleware to use the classic encoding algorithm
 app.use(bodyParser.json({extended:false}));
 
 app.use(userRouter);
@@ -49,10 +51,10 @@ app.use(downloadsRouter);
 app.use(leaderboardRouter);
 app.use(passwordRouter);
 
-app.use((req,res) => {
+// app.use((req,res) => {
     // console.log("URL>>>",req.url);
-    res.sendFile(path.join(__dirname, `public/${req.url}`));
-});
+    // res.sendFile(path.join(__dirname, `public/${req.url}`));
+// });
 
 User.hasMany(Expense); //one to many
 Expense.belongsTo(User); //one to one
