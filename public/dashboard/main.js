@@ -207,7 +207,7 @@ async function removeExpense(id) {
 
         const data = await axios.delete(`http://3.88.62.108:3000/delete-expense/${id}?page=${currentPage}&limit=${rowsperpage}`, { headers: { 'Auth': token } });
         document.getElementById(id).remove();
-        console.log(data.data.pageData);
+        // console.log(data.data.pageData);
         
       
         // if()
@@ -218,7 +218,7 @@ async function removeExpense(id) {
             getExpenses(data.data.pageData.currentPage,2,rowsperpage);
         }
         else if(Eul.rows.length <=1 && data.data.pageData.previousPage!=0){
-            getExpenses(data.data.pageData.previousPage,1,rowsperpage);
+            getExpenses(data.data.pageData.previousPage,2,rowsperpage);
         }
         else{
             getExpenses(1,0,rowsperpage);
@@ -235,18 +235,20 @@ async function removeExpense(id) {
 //SHOW ADDED DATA ON SCREEN
 function showOnScreen(obj, flag) {
 
-    console.log(flag);
+    // console.log('in show on screen' , flag);
    
     if (flag == 1) {
         if(noExpenseRecords.classList.contains('hidden')){
+            // console.log('in flag ' , flag);
             document.getElementById(lastPage).click();
         }
     }
-    else if(flag == 2){
-        if(noExpenseRecords.classList.contains('hidden')){
-            document.getElementById(currentPage).click();
-        }
-    }
+    // else if(flag == 2){
+    //     if(noExpenseRecords.classList.contains('hidden')){
+    //         console.log('in flag ' , flag);
+    //         // document.getElementById(currentPage).click();
+    //     }
+    // }
     
 
 
