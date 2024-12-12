@@ -7,7 +7,8 @@ const sequelize = require('../util/database');
 const User = require('../models/user');
 const ForgotPasswordRequests = require('../models/forgotPasswordRequests');
 
-const { v4: uuidv4 } = require('uuid');
+ //unique identifier just like id but it is normally a long string so that other people cannot guess
+const { v4: uuidv4 } = require('uuid'); 
 
 //require('dotenv').config();
 
@@ -95,6 +96,7 @@ exports.resetPassword = async (req, res) => {
             await request.update({ isActive: false });
 
             res.set('Cache-Control', 'no-cache, no-store, must-revalidate');
+            
             res.status(200).send(`<html lang="en">
 
                                                 <head>

@@ -24,16 +24,7 @@ exports.getReport = async (req, res) => {
             offset:(page-1) * expenses_per_page,
             limit:expenses_per_page });
 
-            // const pageData={
-            //     currentPage:page,
-            //     hasNextPage: expenses_per_page* page < totalExpenses,
-            //     nextPage:page+1,
-            //     hasPreviousPage:page>1,
-            //     previousPage:page-1,
-            //     total:totalExpenses,
-            //     lastPage:Math.ceil(totalExpenses/expenses_per_page)
-            // }
-
+           
             const pageData=pageDataService.pageData(page,expenses_per_page,totalExpenses);
 
             res.status(200).json({expenses,pageData});
@@ -53,7 +44,6 @@ exports.getMonthReport = async (req, res) => {
         const page=Number(req.query.page) || 1;
         const expenses_per_page=Number(req.query.limit) ;
 
-       
 
 
         const totalExpenses=await Expense.count({where:{
@@ -64,16 +54,6 @@ exports.getMonthReport = async (req, res) => {
 
                  });
 
-
-                // const pageData={
-                //     currentPage:page,
-                //     hasNextPage: expenses_per_page* page < totalExpenses,
-                //     nextPage:page+1,
-                //     hasPreviousPage:page>1,
-                //     previousPage:page-1,
-                //     total:totalExpenses,
-                //     lastPage:Math.ceil(totalExpenses/expenses_per_page)
-                // }
 
                 const pageData=pageDataService.pageData(page,expenses_per_page,totalExpenses);
 

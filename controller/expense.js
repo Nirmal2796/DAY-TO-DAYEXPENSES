@@ -15,7 +15,7 @@ exports.getExpenses = async (req, res) => {
         const totalExpenses=await Expense.count({where:{userId:req.user.id}});
 
         const expenses = await UserServices.getExpenses(req,{
-            offset:(page-1) * expenses_per_page,
+            offset:(page-1) * expenses_per_page, //skip the rows of data 
             limit:expenses_per_page
         });
 
@@ -59,7 +59,7 @@ exports.addExpense = async (req, res) => {
 
         await req.user.update({totalExpenses:totalExpensesUser},{transaction:t});
 
-        await t.commit();
+        await t.commit(); // if we dont commit it will not change anything in db it will keep as it is.
 
 
         const totalExpensesPage=await Expense.count({where:{userId:req.user.id}});
@@ -89,7 +89,7 @@ exports.deleteExpense = async (req, res) => {
         const expenses_per_page=Number(req.query.limit) ;
 
 
-        const expense = await req.user.getExpenses({ where: { id } },{transaction:t})
+        const expense = await req.user.getExpenses({ where: { id } });
 
         const totalExpenses =  req.user.totalExpenses - Number(expense[0].amount);
         await req.user.update({totalExpenses:totalExpenses},{transaction:t});
