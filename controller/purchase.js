@@ -66,7 +66,7 @@ exports.updateTransaction = async (req, res) => {
         }
         else{
             update1 = order.update({ payment_id: payment_id, status: 'FAILED' },{transaction:t});
-            update2 = req.user.update({ ispremiumuser: false },{transaction:t});           
+            // update2 = req.user.update({ ispremiumuser: false },{transaction:t});           
         }
 
         await Promise.all([update1, update2]);

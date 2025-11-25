@@ -47,7 +47,7 @@ app.use(bodyParser.json({extended:false}));
 
 app.use(bodyParser.urlencoded({extended:true}));
 
-// app.use(userRouter);
+app.use(userRouter);
 // app.use(expenseRouter);
 // app.use(purchaseRouter);
 // app.use(reportsRouter);

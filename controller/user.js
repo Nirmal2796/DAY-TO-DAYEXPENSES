@@ -8,16 +8,16 @@ const sequelize = require('../util/database');
 
 const postSignupUser = async (req, res) => {
 
-    const t=await sequelize.transaction();
+    // const t=await sequelize.transaction();
 
     try {
-
+        
         email = req.body.email;
         uname = req.body.name;
         password = req.body.password;
 
 
-        const user = await User.findAll({where:{email:email}})
+        const user = await User.find({"email":email});
 
         
         if (user.length>0) {
@@ -28,13 +28,22 @@ const postSignupUser = async (req, res) => {
             bcrypt.hash(password, 10, async (err, hash) => {
 
                 if (!err) {
-                    const newUser = await User.create({
-                        email: email,
-                        name: uname,
-                        password: hash
-                    },{transaction:t});
+                    // const newUser = await User.create({
+                    //     email: email,
+                    //     name: uname,
+                    //     password: hash
+                    // },{transaction:t});
 
-                    await t.commit();
+                    // await t.commit();
+
+                    const newUser=new User({
+                        name:uname,
+                        email:email,
+                        password:hash,
+                        ispremiumuser: false
+                    });
+                    
+                    await newUser.save();
 
                     res.status(201).json({ newUser: newUser, message: 'User registered Successfully...Please Log In' });
                 }
@@ -58,7 +67,7 @@ const postLoginUser = async (req, res) => {
         const email = req.body.email;
         const password = req.body.password;
     
-        const user = await User.findAll({where:{email}});
+        const user = await User.find({"email":email});
     
         if (user.length>0) {
 
