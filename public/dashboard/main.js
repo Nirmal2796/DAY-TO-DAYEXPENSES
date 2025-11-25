@@ -123,7 +123,7 @@ async function onSubmit(e) {
             const rowsperpage=localStorage.getItem('rowsPerPage');
 
             // console.log(expense);
-            let response = await axios.post(`http://3.88.62.108:3000/add-expense?page=${lastPage}&limit=${rowsperpage}`, expense, { headers: { 'Auth': token } });
+            let response = await axios.post(`http://localhost:3000/add-expense?page=${lastPage}&limit=${rowsperpage}`, expense, { headers: { 'Auth': token } });
             // console.log(response.data.newExpense);
             if (EulDiv.classList.contains('hidden')) {
                 noRecordsAvailable();
@@ -161,7 +161,7 @@ async function getExpenses(page, flag,rowsPerPage) {
         currentPage=page;
 
         // const token=localStorage.getItem('token');
-        const res = await axios.get(`http://3.88.62.108:3000/get-expenses?page=${page}&limit=${rowsPerPage}`, { headers: { 'Auth': token } });
+        const res = await axios.get(`http://localhost:3000/get-expenses?page=${page}&limit=${rowsPerPage}`, { headers: { 'Auth': token } });
 
         const expenses = res.data.expenses;
         // console.log(res.data.expenses);
@@ -205,7 +205,7 @@ async function removeExpense(id) {
         // const token=localStorage.getItem('token');
         const rowsperpage=localStorage.getItem('rowsPerPage');
 
-        const data = await axios.delete(`http://3.88.62.108:3000/delete-expense/${id}?page=${currentPage}&limit=${rowsperpage}`, { headers: { 'Auth': token } });
+        const data = await axios.delete(`http://localhost:3000/delete-expense/${id}?page=${currentPage}&limit=${rowsperpage}`, { headers: { 'Auth': token } });
         document.getElementById(id).remove();
         // console.log(data.data.pageData);
         
@@ -273,38 +273,49 @@ function showOnScreen(obj, flag) {
 
 async function buyPremium(e) {
 
+try {
+    
 
     // const token=localStorage.getItem('token');
-    const res = await axios.get('http://3.88.62.108:3000/buypremium', { headers: { 'Auth': token } });
+    const res = await axios.get('http://localhost:3000/buypremium', { headers: { 'Auth': token } });
 
     console.log(res.data.order.id);
     var options = {
         "key": res.data.key_id,
         "order_id": res.data.order.id,
+        "amount":res.data.order.amount,
+        "currency":"INR",
         "handler": async function (res) {
-            const result = await axios.post('http://3.88.62.108:3000/updateTransactions', {
-                order_id: options.order_id,
-                payment_id: res.razorpay_payment_id,
-                status: 'successful'
-            }, { headers: { 'Auth': token } });
+            try{
 
-
-            alert('You are a Premium User Now');
-            showPremium();
-            localStorage.setItem('token', result.data.token);
+                const result = await axios.post('http://localhost:3000/updateTransactions', {
+                    order_id: options.order_id,
+                    payment_id: res.razorpay_payment_id,
+                    status: 'successful'
+                }, { headers: { 'Auth': token } });
+    
+    
+                alert('You are a Premium User Now');
+                showPremium();
+                localStorage.setItem('token', result.data.token);
+            }
+            catch(err){
+                console.error("Error updating transaction:", error.response?.data || error.message);
+            }
         },
         "retry": {
             enabled: false
-        }
+        },
+        
     };
 
     var razorpayObject = new Razorpay(options);
 
     razorpayObject.on('payment.failed', async (res) => {
-        // console.log(res);
-        const result = await axios.post('http://3.88.62.108:3000/updateTransactions', {
+        console.log(res);
+        const result = await axios.post('http://localhost:3000/updateTransactions', {
             order_id: options.order_id,
-            payment_id: res.razorpay_payment_id,
+            payment_id: res.error.metadata.payment_id,
             status: 'failed'
         }, { headers: { 'Auth': token } });
 
@@ -314,7 +325,9 @@ async function buyPremium(e) {
     // console.log(razorpayObject);
     razorpayObject.open();
     e.preventDefault();
-
+} catch (error) {
+    console.log(error);
+}
 
 
 }

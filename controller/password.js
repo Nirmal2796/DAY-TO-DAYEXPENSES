@@ -55,7 +55,7 @@ exports.forgotPassword = async (req, res) => {
                 sender,
                 to: receivers,
                 subject: 'Reset Password',
-                textContent: `http://3.88.62.108:3000/resetpassword/{{params.uid}}`,
+                textContent: `http://localhost:3000/resetpassword/{{params.uid}}`,
                 params: {
                     uid: uid
                 }

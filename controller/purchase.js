@@ -20,6 +20,7 @@ exports.purchasePremium = async (req, res) => {
 
         rzp.orders.create({ amount, currency: "INR" }, async (err, order) => {
             if (err) {
+                console.log(err);
                 throw new Error(err);
             }
             else {
@@ -39,7 +40,7 @@ exports.purchasePremium = async (req, res) => {
     }
     catch (err) {
         await t.rollback();
-        res.status(500).json({ success: false, message: 'Something went wrong' });
+        res.status(500).json({ success: false, message: 'Something went wrong',error:err });
 
     }
 }
