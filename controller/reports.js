@@ -14,15 +14,22 @@ exports.getReport = async (req, res) => {
         const page=Number(req.query.page) || 1;
         const expenses_per_page=Number(req.query.limit) ;
 
-        const totalExpenses=await Expense.count({where:{
-            [Op.and]:[
-                sequelize.where(sequelize.col('userId'),req.user.id),
-                sequelize.where(sequelize.col('date'),date)]}});
+        const start=new Date(date);
+        const end=new Date(date);
+        end.setDate(end.getDate()+1);
 
-        const expenses = await UserServices.getExpenses(req,
-            { where: { date: date }, 
-            offset:(page-1) * expenses_per_page,
-            limit:expenses_per_page });
+         const [totalExpenses,expenses]=await Promise.all([
+                                    Expense.countDocuments({
+                                            userId:req.user,
+                                            date:{$gte:start ,$lt:end }
+                                             }),
+                                    Expense.find({
+                                        userId:req.user,
+                                        date:{$gte:start ,$lt:end }
+                                    })
+                                    .skip((page-1) * expenses_per_page)
+                                    .limit(expenses_per_page )]);
+
 
            
             const pageData=pageDataService.pageData(page,expenses_per_page,totalExpenses);
@@ -41,35 +48,28 @@ exports.getMonthReport = async (req, res) => {
         const month = req.query.month;
         const year = req.query.year;
 
+        console.log(month,year);
+
         const page=Number(req.query.page) || 1;
-        const expenses_per_page=Number(req.query.limit) ;
+        const expenses_per_page=Number(req.query.limit);
 
+        const start=new Date(year,month-1,1);
+        const end=new Date(year,month+1,1);
 
+        const [totalExpenses,expenses]=await Promise.all([
+                                    Expense.countDocuments({
+                                            userId:req.user,
+                                            date:{$gte:start ,$lt:end }
+                                             }),
+                                    Expense.find({
+                                        userId:req.user,
+                                        date:{$gte:start ,$lt:end }
+                                    })
+                                    .skip((page-1) * expenses_per_page)
+                                    .limit(expenses_per_page )]);
 
-        const totalExpenses=await Expense.count({where:{
-            [Op.and]:[
-                sequelize.where(sequelize.col('userId'),req.user.id),
-                sequelize.where(sequelize.fn('MONTH', sequelize.col('date')), month),
-                sequelize.where(sequelize.fn('YEAR', sequelize.col('date')), year)]},
+        const pageData=pageDataService.pageData(page,expenses_per_page,totalExpenses);
 
-                 });
-
-
-                const pageData=pageDataService.pageData(page,expenses_per_page,totalExpenses);
-
-
-        // console.log(year);
-
-        const expenses = await UserServices.getExpenses(req,{
-            where: {
-                [Op.and]: [
-                    sequelize.where(sequelize.fn('MONTH', sequelize.col('date')), month),
-                    sequelize.where(sequelize.fn('YEAR', sequelize.col('date')), year),
-                ]
-            },
-            offset:(page-1) * expenses_per_page,
-            limit:expenses_per_page
-        })
         
         res.status(200).json({expenses,pageData});
 
@@ -88,30 +88,22 @@ exports.getYearReport = async (req, res) => {
         const page=Number(req.query.page) || 1;
         const expenses_per_page=Number(req.query.limit) ;
 
-        const totalExpenses=await Expense.count({where:{
-            [Op.and]:[
-                sequelize.where(sequelize.col('userId'),req.user.id),
-                sequelize.where(sequelize.fn('YEAR', sequelize.col('date')), year)]}});
+        const start=new Date(year,0,1);
+        const end=new Date(year+1,0,1);
 
-        // console.log(year);
+        const [totalExpenses,expenses]=await Promise.all([
+                                    Expense.countDocuments({
+                                            userId:req.user,
+                                            date:{$gte:start ,$lt:end }
+                                             }),
+                                    Expense.find({
+                                        userId:req.user,
+                                        date:{$gte:start ,$lt:end }
+                                    })
+                                    .skip((page-1) * expenses_per_page)
+                                    .limit(expenses_per_page )]);
 
-        const expenses = await UserServices.getExpenses(req,{
-            where:
-                sequelize.where(sequelize.fn('YEAR', sequelize.col('date')), year),
-                offset:(page-1) * expenses_per_page,
-                limit:expenses_per_page 
-
-        })
-
-        // const pageData={
-        //     currentPage:page,
-        //     hasNextPage: expenses_per_page* page < totalExpenses,
-        //     nextPage:page+1,
-        //     hasPreviousPage:page>1,
-        //     previousPage:page-1,
-        //     total:totalExpenses,
-        //     lastPage:Math.ceil(totalExpenses/expenses_per_page)
-        // }
+ 
 
         const pageData=pageDataService.pageData(page,expenses_per_page,totalExpenses);
 

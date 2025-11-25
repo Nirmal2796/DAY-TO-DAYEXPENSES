@@ -57,7 +57,7 @@ exports.addExpense = async (req, res) => {
             amount: amount,
             category: category,
             description: description,
-            date: new Date().toISOString().split("T")[0],
+            date: new Date(),
             userId:req.user
         });
 
