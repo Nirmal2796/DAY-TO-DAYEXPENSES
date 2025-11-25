@@ -1,23 +1,48 @@
-const Sequelize=require('sequelize');
+const mongoose = require('mongoose');
 
-const sequelize=require('../util/database');
+const Schema = mongoose.Schema;
 
-// const { v4: uuidv4 } = require('uuid');
-
-const ForgotPasswordRequests=sequelize.define('forgotpasswordrequest',{
-    id:{
-        type:Sequelize.STRING,
-        allowNull:false,
-        primaryKey:true
+const forgotPasswordSchema = new Schema({
+    _id:{
+        type: String,
+        required: true
     },
-    userId:{
-        type:Sequelize.INTEGER,
-        allowNull:false
+    userId: {
+        type: Schema.Types.ObjectId,
+        ref: 'User',
+        required: true
     },
-    isActive:{
-        type:Sequelize.BOOLEAN,
-        allowNull:false
+    isActive: {
+        type: Boolean,
+        required: true
     }
 });
 
-module.exports=ForgotPasswordRequests;
+module.exports=mongoose.model('ForgotPassword',forgotPasswordSchema);
+
+
+
+
+// const Sequelize=require('sequelize');
+
+// const sequelize=require('../util/database');
+
+// // const { v4: uuidv4 } = require('uuid');
+
+// const ForgotPasswordRequests=sequelize.define('forgotpasswordrequest',{
+//     id:{
+//         type:Sequelize.STRING,
+//         allowNull:false,
+//         primaryKey:true
+//     },
+//     userId:{
+//         type:Sequelize.INTEGER,
+//         allowNull:false
+//     },
+//     isActive:{
+//         type:Sequelize.BOOLEAN,
+//         allowNull:false
+//     }
+// });
+
+// module.exports=ForgotPasswordRequests;

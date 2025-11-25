@@ -53,7 +53,7 @@ app.use(userRouter);
 // app.use(reportsRouter);
 // app.use(downloadsRouter);
 // app.use(leaderboardRouter);
-// app.use(passwordRouter);
+app.use(passwordRouter);
 
 // app.use((req,res) => {
     // console.log("URL>>>",req.url);

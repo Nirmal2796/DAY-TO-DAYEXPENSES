@@ -15,7 +15,7 @@ const { v4: uuidv4 } = require('uuid');
 
 exports.forgotPassword = async (req, res) => {
 
-    const t = await sequelize.transaction();
+    // const t = await sequelize.transaction();
 
     try {
 
@@ -29,14 +29,23 @@ exports.forgotPassword = async (req, res) => {
 
         const uid = uuidv4();
 
-        const user = await User.findOne({ where: { email } });
+       
+        const user = await User.findOne({"email":email});
+
+        // console.log(user);
 
         if (user) {
 
-            await user.createForgotpasswordrequest({
-                id: uid,
+            const newRequest= new ForgotPasswordRequests({
+                _id: uid,
+                userId:user._id,
                 isActive: true
-            }, { transaction: t })
+            });
+
+            // await user.createForgotpasswordrequest({
+            //     id: uid,
+            //     isActive: true
+            // }, { transaction: t })
 
             const sender = {
                 email: 'nirmalgadekar2796@gmail.com',
@@ -61,10 +70,11 @@ exports.forgotPassword = async (req, res) => {
                 }
             })
 
-            await t.commit();
+            await newRequest.save();
+
+            // await t.commit();
 
             res.status(200).json({success: true});
-
 
         }
         else {
@@ -76,7 +86,7 @@ exports.forgotPassword = async (req, res) => {
 
     }
     catch (err) {
-        await t.rollback();
+        // await t.rollback();
         console.log(err);
         res.status(500).json({ success: false, message: 'Something went wrong' });
     }
@@ -89,11 +99,14 @@ exports.resetPassword = async (req, res) => {
     try {
         const uid = req.params.uid;
 
-        const request = await ForgotPasswordRequests.findByPk(uid);
+        const request = await ForgotPasswordRequests.findById(uid);
+
+        console.log(request);
 
         if (request && request.isActive) {
 
-            await request.update({ isActive: false });
+            request.isActive=false;
+            await request.save();
 
             res.set('Cache-Control', 'no-cache, no-store, must-revalidate');
             
@@ -170,7 +183,7 @@ exports.resetPassword = async (req, res) => {
 
 exports.updatePassword = async (req, res) => {
 
-    const t = await sequelize.transaction();
+    // const t = await sequelize.transaction();
     try {
 
         const uid = req.params.uid;           //eg. /password/updatepassword/uid
@@ -178,25 +191,30 @@ exports.updatePassword = async (req, res) => {
 
         // console.log("NEWPASSWORD == ",newPassword)
 
-        const request = await ForgotPasswordRequests.findByPk(uid);
+        const request = await ForgotPasswordRequests.findById(uid);
         console.log(request)
-        const user = await User.findByPk(request.userId);
+        const user = await User.findById(request.userId);
 
         console.log(user);
 
         bcrypt.hash(newPassword, 10, async (err, hash) => {
-            await user.update({ password: hash }, { transaction: t });
+
+            user.password=hash;
+
+            await user.save();
+
+            // await user.update({ password: hash }, { transaction: t });
 
             // console.log(up);
             // alert('Password updated Successfully');
             // res.redirect('/login');
 
-            await t.commit();
+            // await t.commit();
             res.status(200).json({ success: true, message: 'Password updated Successfully' });
         })
     }
     catch (err) {
-        await t.rollback();
+        // await t.rollback();
         console.log(err);
         res.status(500).json({ success: false, message: err });
     }
