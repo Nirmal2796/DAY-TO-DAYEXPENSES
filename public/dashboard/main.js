@@ -202,7 +202,7 @@ async function getExpenses(page, flag,rowsPerPage) {
 async function removeExpense(id) {
     try {
 
-        console.log(id);
+        // console.log(id);
         // const token=localStorage.getItem('token');
         const rowsperpage=localStorage.getItem('rowsPerPage');
 

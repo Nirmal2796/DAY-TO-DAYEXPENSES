@@ -52,7 +52,7 @@ app.use(expenseRouter);
 app.use(purchaseRouter);
 // app.use(reportsRouter);
 // app.use(downloadsRouter);
-// app.use(leaderboardRouter);
+app.use(leaderboardRouter);
 app.use(passwordRouter);
 
 // app.use((req,res) => {
