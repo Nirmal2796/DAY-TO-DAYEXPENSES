@@ -9,7 +9,7 @@ exports.authentication = async (req, res,next) => {
         console.log("TOken>>>>>>",token);
         const decrypted_user = jwt.verify(token, process.env.TOKEN_SECRET);
 
-        const user = await User.findByPk(decrypted_user.userId);
+        const user = await User.findById(decrypted_user.userId);
         // console.log(decrypted_user);
         // console.log(user);
         if (user) {

@@ -202,6 +202,7 @@ async function getExpenses(page, flag,rowsPerPage) {
 async function removeExpense(id) {
     try {
 
+        console.log(id);
         // const token=localStorage.getItem('token');
         const rowsperpage=localStorage.getItem('rowsPerPage');
 
@@ -252,12 +253,12 @@ function showOnScreen(obj, flag) {
     
 
 
-        const newRow = `<tr id=${obj.id}  class="list-group-item odd:bg-white even:bg-[#799e9b] text-[#154e49] font-semibold  border-b""> 
+        const newRow = `<tr id=${obj._id}  class="list-group-item odd:bg-white even:bg-[#799e9b] text-[#154e49] font-semibold  border-b""> 
         <td class="px-6 py-3">
         ${obj.category} </td> 
         <td class="px-6 py-4">${obj.amount} </td> 
         <td class="px-6 py-4">${obj.description}</td> 
-        <td class="px-6 py-4"><ion-icon name="trash" onClick=removeExpense(${obj.id}) class="cursor-pointer hover:text-[#FBB04B] text-xl"></ion-icon>
+        <td class="px-6 py-4"><ion-icon name="trash" onClick=removeExpense('${obj._id}') class="cursor-pointer hover:text-[#FBB04B] text-xl"></ion-icon>
         </td>
         </tr>`;
     

@@ -1,10 +1,7 @@
 const Expense = require('../models/expense');
 
-const sequelize = require('../util/database');
-
-const UserServices=require('../services/userServices');
-
 const pageDataService=require('../services/pageDataService');
+
 
 
 exports.getExpenses = async (req, res) => {
@@ -12,12 +9,20 @@ exports.getExpenses = async (req, res) => {
         const page=Number(req.query.page) || 1;
         const expenses_per_page=Number(req.query.limit) ;
 
-        const totalExpenses=await Expense.count({where:{userId:req.user.id}});
+        const totalExpenses=await Expense.countDocuments({userId:req.user._id});
 
-        const expenses = await UserServices.getExpenses(req,{
-            offset:(page-1) * expenses_per_page, //skip the rows of data 
-            limit:expenses_per_page
-        });
+        const offset=(page-1) * expenses_per_page;
+        const limit=expenses_per_page;
+
+
+        const expenses=await Expense.find({userId:req.user._id})
+                        .skip(offset)
+                        .limit(limit);
+
+        // const expenses = await UserServices.getExpenses(req,{
+        //     offset:(page-1) * expenses_per_page, //skip the rows of data 
+        //     limit:expenses_per_page
+        // });
 
 
         // const pageData=pageData(page,expenses_per_page,totalExpenses);
@@ -32,7 +37,7 @@ exports.getExpenses = async (req, res) => {
 
 exports.addExpense = async (req, res) => {
 
-        const t= await sequelize.transaction();
+        // const t= await sequelize.transaction();
 
     try {
 
@@ -48,21 +53,26 @@ exports.addExpense = async (req, res) => {
         
         // console.log(totalExpenses);
 
-        const expense = await req.user.createExpense({
+        const expense = new Expense({
             amount: amount,
             category: category,
             description: description,
-            date: new Date()
-        },{transaction:t});
+            date: new Date().toISOString().split("T")[0],
+            userId:req.user
+        });
 
-       
+        req.user.totalExpenses=totalExpensesUser;
 
-        await req.user.update({totalExpenses:totalExpensesUser},{transaction:t});
+        await expense.save();
+        await req.user.save();
 
-        await t.commit(); // if we dont commit it will not change anything in db it will keep as it is.
+        // await req.user.update({totalExpenses:totalExpensesUser},{transaction:t});
 
 
-        const totalExpensesPage=await Expense.count({where:{userId:req.user.id}});
+        // await t.commit(); // if we dont commit it will not change anything in db it will keep as it is.
+
+
+        const totalExpensesPage = await Expense.countDocuments({userId:req.user._id});
 
         // const pageData=pageData(page,expenses_per_page,totalExpensesPage);
 
@@ -70,7 +80,7 @@ exports.addExpense = async (req, res) => {
         res.status(201).json({ newExpense: expense , pageData:pageDataService.pageData(page,expenses_per_page,totalExpensesPage)});
     }
     catch (err) {
-        await t.rollback();
+        // await t.rollback();
         console.log(err);
         res.status(500).json({success:false});
     }
@@ -79,7 +89,7 @@ exports.addExpense = async (req, res) => {
 
 exports.deleteExpense = async (req, res) => {
 
-    const t= await sequelize.transaction();
+    // const t= await sequelize.transaction();
 
     try {
 
@@ -89,16 +99,25 @@ exports.deleteExpense = async (req, res) => {
         const expenses_per_page=Number(req.query.limit) ;
 
 
-        const expense = await req.user.getExpenses({ where: { id } });
+        const expense = await Expense.findById(id);
 
-        const totalExpenses =  req.user.totalExpenses - Number(expense[0].amount);
-        await req.user.update({totalExpenses:totalExpenses},{transaction:t});
+        // console.log(id);
+
+        const totalExpenses =  req.user.totalExpenses - Number(expense.amount);
+
+        req.user.totalExpenses=totalExpenses;
+
+        await req.user.save();
+
+        // await req.user.update({totalExpenses:totalExpenses},{transaction:t});
         // console.log(expense);
-        expense[0].destroy();
 
-        await t.commit();
+        await expense.deleteOne();
+        // expense[0].destroy();
 
-        const totalExpensesPage=await Expense.count({where:{userId:req.user.id}});
+        // await t.commit();
+
+        const totalExpensesPage=await await Expense.countDocuments({userId:req.user._id});
 
         // const pageData=pageData(page,expenses_per_page,totalExpensesPage);
 

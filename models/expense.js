@@ -1,31 +1,65 @@
-const Sequelize=require('sequelize');
+const mongoose = require('mongoose');
 
-const sequelize=require('../util/database');
+const Schema = mongoose.Schema;
 
-
-const Expense=sequelize.define('expense',{
-    id:{
-        type:Sequelize.INTEGER,
-        primaryKey:true,
-        allowNull:false,
-        autoIncrement:true
+const expenseSchema = new Schema({
+    amount: {
+        type: Number,
+        required: true,
     },
-    amount:{
-        type:Sequelize.INTEGER,
-        allowNull:false,
+    category: {
+        type: String,
+        required: true
     },
-    category:{
-        type:Sequelize.STRING,
-        allowNull:false
+    description: {
+        type: String,
+        required: true
     },
-    description:{
-        type:Sequelize.STRING,
-        allowNull:false
+    date: {
+        type: Date,
+        required: true
     },
-    date:{
-        type:Sequelize.DATEONLY,
-        allowNull:false
+    userId: {
+        type: Schema.Types.ObjectId,
+        ref: 'User',
+        required: true
     }
-})
+});
 
-module.exports=Expense;
+
+
+module.exports = mongoose.model("Expense", expenseSchema);
+
+
+
+// const Sequelize=require('sequelize');
+
+// const sequelize=require('../util/database');
+
+
+// const Expense=sequelize.define('expense',{
+//     id:{
+//         type:Sequelize.INTEGER,
+//         primaryKey:true,
+//         allowNull:false,
+//         autoIncrement:true
+//     },
+//     amount:{
+//         type:Sequelize.INTEGER,
+//         allowNull:false,
+//     },
+//     category:{
+//         type:Sequelize.STRING,
+//         allowNull:false
+//     },
+//     description:{
+//         type:Sequelize.STRING,
+//         allowNull:false
+//     },
+//     date:{
+//         type:Sequelize.DATEONLY,
+//         allowNull:false
+//     }
+// })
+
+// module.exports=Expense;
