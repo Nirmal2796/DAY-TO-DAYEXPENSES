@@ -49,7 +49,7 @@ app.use(bodyParser.urlencoded({extended:true}));
 
 app.use(userRouter);
 app.use(expenseRouter);
-// app.use(purchaseRouter);
+app.use(purchaseRouter);
 // app.use(reportsRouter);
 // app.use(downloadsRouter);
 // app.use(leaderboardRouter);

@@ -78,7 +78,7 @@ const postLoginUser = async (req, res) => {
                     throw new Error('Something Went Wrong');
                 }
                 if(result){
-                    res.status(200).json({ message: 'User logged in Successfully' , token: JWTServices.generateToken(user[0].id , user[0].ispremiumuser) });
+                    res.status(200).json({ message: 'User logged in Successfully' , token: JWTServices.generateToken(user[0]._id , user[0].ispremiumuser) });
                 }
                 else{
                     res.status(401).json({ message: ' User not authorized' });
