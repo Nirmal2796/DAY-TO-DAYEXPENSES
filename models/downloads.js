@@ -1,23 +1,46 @@
-const Sequelize=require('sequelize');
+const mongoose=require('mongoose');
 
-const sequelize=require('../util/database');
+const Schema=mongoose.Schema;
 
-const Downloads=sequelize.define('download',{
-    id:{
-        type:Sequelize.INTEGER,
-        allowNull:false,
-        primaryKey:true,
-        autoIncrement:true
-    },
-    date:{
-        type:Sequelize.DATEONLY,
-        allowNull:false
+const downloadSchema=new Schema({
+        date:{
+        type:Date,
+        required: true
     },
     fileURL:{
-        type:Sequelize.STRING,
-        allowNull:false
+        type:String,
+        required: true
+    },
+     userId: {
+        type: Schema.Types.ObjectId,
+        ref: 'User',
+        required: true
     }
 });
 
+module.exports=mongoose.model("Download",downloadSchema);
 
-module.exports=Downloads;
+
+// const Sequelize=require('sequelize');
+
+// const sequelize=require('../util/database');
+
+// const Downloads=sequelize.define('download',{
+//     id:{
+//         type:Sequelize.INTEGER,
+//         allowNull:false,
+//         primaryKey:true,
+//         autoIncrement:true
+//     },
+//     date:{
+//         type:Sequelize.DATEONLY,
+//         allowNull:false
+//     },
+//     fileURL:{
+//         type:Sequelize.STRING,
+//         allowNull:false
+//     }
+// });
+
+
+// module.exports=Downloads;
