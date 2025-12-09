@@ -13,7 +13,7 @@ exports.downloadReport = async (req, res) => {
         const end = new Date(date);
         end.setDate(end.getDate() + 1);
 
-        const expenses = await Expense.find({
+        const expenses = await Expense.find({ //get all expenses of that date
             userId: req.user,
             date: { $gte: start, $lt: end }
         });
@@ -22,14 +22,14 @@ exports.downloadReport = async (req, res) => {
 
         const fileName = `${req.user.id}/${new Date()}.txt`;  //folder/date.txt ;
 
-        const fileURL = await S3Services.uploadToS3(stringifiedExpenses, fileName);
+        const fileURL = await S3Services.uploadToS3(stringifiedExpenses, fileName); //upload it
 
         console.log(fileURL);
 
-        await new Downloads({
+        await new Downloads({ //instantiate object
             date: new Date(),
             fileURL: fileURL
-        }).save();
+        }).save(); //save it.
 
 
         res.status(200).json({ fileURL: fileURL, success: true });
@@ -50,7 +50,7 @@ exports.downloadMonthlyReport = async (req, res) => {
         const start = new Date(year, month - 1, 1);
         const end = new Date(year, month + 1, 1);
 
-        const expenses = await Expense.find({
+        const expenses = await Expense.find({ //get all expenses of that month
             userId: req.user,
             date: { $gte: start, $lt: end }
         });
@@ -59,12 +59,12 @@ exports.downloadMonthlyReport = async (req, res) => {
 
         const fileName = `${req.user.id}/${new Date()}.txt`;
 
-        const fileURL = await S3Services.uploadToS3(stringifiedExpenses, fileName);
+        const fileURL = await S3Services.uploadToS3(stringifiedExpenses, fileName); //upload it
 
-        await new Downloads({
+        await new Downloads({  //instantiate object
             date: new Date(),
             fileURL: fileURL
-        }).save();
+        }).save(); //save it.
 
         res.status(200).json({ fileURL: fileURL, success: true });
 
@@ -83,7 +83,7 @@ exports.downloadYearlyReport = async (req, res) => {
         const start = new Date(year, 0, 1);
         const end = new Date(year + 1, 0, 1);
 
-        const expenses = await Expense.find({
+        const expenses = await Expense.find({  //get all expenses of that year
                                         userId: req.user,
                                         date: { $gte: start, $lt: end }
                                     });
@@ -92,12 +92,12 @@ exports.downloadYearlyReport = async (req, res) => {
 
         const fileName = `${req.user.id}/${new Date()}.txt`;
 
-        const fileURL = await S3Services.uploadToS3(stringifiedExpenses, fileName);
+        const fileURL = await S3Services.uploadToS3(stringifiedExpenses, fileName);  //upload it
 
-        await new Downloads({
+        await new Downloads({  //instantiate object
             date: new Date(),
             fileURL: fileURL
-        }).save();
+        }).save(); //save it.
 
         res.status(200).json({ fileURL: fileURL, success: true });
 

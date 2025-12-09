@@ -5,17 +5,9 @@ exports.getLeaderBoard = async (req, res) => {
     try {
 
         const leaderBoard=await User.find()
-                                    .select('_id name totalExpenses')
-                                    .sort({totalExpenses:-1})// -1 means descending
+                                    .select('_id name totalExpenses') // Return only _id, name, and totalExpenses fields
+                                    .sort({totalExpenses:-1})// -1 means descending and 1 for ascending 
                                     .limit(10);
-
-        // const leaderBoard = await User.findAll({
-        //     attributes: ['id', 'name', 'totalExpenses'],
-        //     order: [['totalExpenses', 'DESC']],
-        //     limit: 10
-        // });
-
-        // console.log(leaderBoard);
 
         res.status(200).json(leaderBoard);
     }

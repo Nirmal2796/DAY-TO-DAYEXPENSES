@@ -31,13 +31,13 @@ exports.purchasePremium = async (req, res) => {
 
                 // console.log(userOrder);
 
-                const userOrder = new Order({
+                const userOrder = new Order({ ////instantiate an object 
                     orderid: order.id,
                     status: 'PENDING',
                     userId:req.user
                 })
 
-                await userOrder.save();
+                await userOrder.save(); //create document by calling save method on that object.
 
                 // await req.user.createOrder(userOrder, { transaction: t })
                 // await t.commit();
@@ -70,13 +70,14 @@ exports.updateTransaction = async (req, res) => {
         // let update2;
         if (status == 'successful') {
 
+            //update the record
             order.paymentid=payment_id;
             order.status='SUCCESSFUL';
 
             req.user.ispremiumuser=true;
 
             // await order.save();
-            await req.user.save();
+            await req.user.save(); //save it
 
             // update1 = order.update({ paymentid: payment_id, status: 'SUCCESSFUL' }, { transaction: t });
             // update2 = req.user.update({ ispremiumuser: true }, { transaction: t });
@@ -95,7 +96,7 @@ exports.updateTransaction = async (req, res) => {
 
         // await Promise.all([update1, update2]);
 
-        await order.save();
+        await order.save(); //save order 
 
         // await t.commit();
         res.status(202).json({ success: true, message: status, token: JWTServices.generateToken(req.user.id, req.user.ispremiumuser) });

@@ -36,14 +36,14 @@ const postSignupUser = async (req, res) => {
 
                     // await t.commit();
 
-                    const newUser=new User({
+                    const newUser=new User({ //instantiate an object 
                         name:uname,
                         email:email,
                         password:hash,
                         ispremiumuser: false
                     });
                     
-                    await newUser.save();
+                    await newUser.save(); //create document by calling save method on that object.
 
                     res.status(201).json({ newUser: newUser, message: 'User registered Successfully...Please Log In' });
                 }

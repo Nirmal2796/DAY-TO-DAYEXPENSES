@@ -36,7 +36,7 @@ exports.forgotPassword = async (req, res) => {
 
         if (user) {
 
-            const newRequest= new ForgotPasswordRequests({
+            const newRequest= new ForgotPasswordRequests({ //instantiate an object 
                 _id: uid,
                 userId:user._id,
                 isActive: true
@@ -70,7 +70,7 @@ exports.forgotPassword = async (req, res) => {
                 }
             })
 
-            await newRequest.save();
+            await newRequest.save(); //create document by calling save method on that object.
 
             // await t.commit();
 
@@ -101,12 +101,12 @@ exports.resetPassword = async (req, res) => {
 
         const request = await ForgotPasswordRequests.findById(uid);
 
-        console.log(request);
+        // console.log(request);
 
         if (request && request.isActive) {
 
-            request.isActive=false;
-            await request.save();
+            request.isActive=false; //update the isActive 
+            await request.save();   //after update save it.
 
             res.set('Cache-Control', 'no-cache, no-store, must-revalidate');
             
@@ -192,16 +192,16 @@ exports.updatePassword = async (req, res) => {
         // console.log("NEWPASSWORD == ",newPassword)
 
         const request = await ForgotPasswordRequests.findById(uid);
-        console.log(request)
+        // console.log(request)
         const user = await User.findById(request.userId);
 
-        console.log(user);
+        // console.log(user);
 
         bcrypt.hash(newPassword, 10, async (err, hash) => {
 
-            user.password=hash;
+            user.password=hash; //update the password
 
-            await user.save();
+            await user.save();  //save it
 
             // await user.update({ password: hash }, { transaction: t });
 

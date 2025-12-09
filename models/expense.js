@@ -20,8 +20,8 @@ const expenseSchema = new Schema({
         required: true
     },
     userId: {
-        type: Schema.Types.ObjectId,
-        ref: 'User',
+        type: Schema.Types.ObjectId, // Stores a MongoDB ObjectId
+        ref: 'User',  // References the User model (for relationships)
         required: true
     }
 });

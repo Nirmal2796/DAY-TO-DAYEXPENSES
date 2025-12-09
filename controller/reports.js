@@ -19,16 +19,20 @@ exports.getReport = async (req, res) => {
         end.setDate(end.getDate()+1);
 
          const [totalExpenses,expenses]=await Promise.all([
-                                    Expense.countDocuments({
+
+                                    Expense.countDocuments({ //count of total Expense for that date
                                             userId:req.user,
                                             date:{$gte:start ,$lt:end }
                                              }),
-                                    Expense.find({
+
+                                    Expense.find({  //Expenses of that date
                                         userId:req.user,
                                         date:{$gte:start ,$lt:end }
                                     })
                                     .skip((page-1) * expenses_per_page)
-                                    .limit(expenses_per_page )]);
+                                    .limit(expenses_per_page )
+
+                                ]);
 
 
            
@@ -53,20 +57,24 @@ exports.getMonthReport = async (req, res) => {
         const page=Number(req.query.page) || 1;
         const expenses_per_page=Number(req.query.limit);
 
+        //JavaScript months 0-based
         const start=new Date(year,month-1,1);
-        const end=new Date(year,month+1,1);
+        const end=new Date(year,month,1);
 
         const [totalExpenses,expenses]=await Promise.all([
-                                    Expense.countDocuments({
+
+                                    Expense.countDocuments({ //count of total Expense for that month
                                             userId:req.user,
                                             date:{$gte:start ,$lt:end }
                                              }),
-                                    Expense.find({
+
+                                    Expense.find({  //Expenses of that month
                                         userId:req.user,
                                         date:{$gte:start ,$lt:end }
                                     })
                                     .skip((page-1) * expenses_per_page)
-                                    .limit(expenses_per_page )]);
+                                    .limit(expenses_per_page )
+                                ]);
 
         const pageData=pageDataService.pageData(page,expenses_per_page,totalExpenses);
 
@@ -92,16 +100,19 @@ exports.getYearReport = async (req, res) => {
         const end=new Date(year+1,0,1);
 
         const [totalExpenses,expenses]=await Promise.all([
-                                    Expense.countDocuments({
+
+                                    Expense.countDocuments({  //count of total Expense for that year
                                             userId:req.user,
                                             date:{$gte:start ,$lt:end }
                                              }),
-                                    Expense.find({
+
+                                    Expense.find({ //Expenses of that year
                                         userId:req.user,
                                         date:{$gte:start ,$lt:end }
                                     })
                                     .skip((page-1) * expenses_per_page)
-                                    .limit(expenses_per_page )]);
+                                    .limit(expenses_per_page )
+                                ]);
 
  
 

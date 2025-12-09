@@ -16,8 +16,8 @@ exports.getExpenses = async (req, res) => {
 
 
         const expenses=await Expense.find({userId:req.user._id})
-                        .skip(offset)
-                        .limit(limit);
+                        .skip(offset)  // Skip records for pagination
+                        .limit(limit); // Limit number of records returned
 
         // const expenses = await UserServices.getExpenses(req,{
         //     offset:(page-1) * expenses_per_page, //skip the rows of data 
@@ -53,7 +53,7 @@ exports.addExpense = async (req, res) => {
         
         // console.log(totalExpenses);
 
-        const expense = new Expense({
+        const expense = new Expense({ //instantiate an object 
             amount: amount,
             category: category,
             description: description,
@@ -63,7 +63,7 @@ exports.addExpense = async (req, res) => {
 
         req.user.totalExpenses=totalExpensesUser;
 
-        await expense.save();
+        await expense.save(); //create document by calling save method on that object.
         await req.user.save();
 
         // await req.user.update({totalExpenses:totalExpensesUser},{transaction:t});
@@ -107,17 +107,19 @@ exports.deleteExpense = async (req, res) => {
 
         req.user.totalExpenses=totalExpenses;
 
+
+        await expense.deleteOne(); //delete the document.
         await req.user.save();
 
         // await req.user.update({totalExpenses:totalExpenses},{transaction:t});
         // console.log(expense);
 
-        await expense.deleteOne();
+        
         // expense[0].destroy();
 
         // await t.commit();
 
-        const totalExpensesPage=await await Expense.countDocuments({userId:req.user._id});
+        const totalExpensesPage= await Expense.countDocuments({userId:req.user._id});
 
         // const pageData=pageData(page,expenses_per_page,totalExpensesPage);
 

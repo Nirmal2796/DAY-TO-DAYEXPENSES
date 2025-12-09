@@ -9,7 +9,7 @@ const forgotPasswordSchema = new Schema({
     },
     userId: {
         type: Schema.Types.ObjectId,
-        ref: 'User',
+        ref: 'User',// References the User model (for relationships)
         required: true
     },
     isActive: {
