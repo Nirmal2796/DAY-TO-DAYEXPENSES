@@ -108,8 +108,8 @@ exports.deleteExpense = async (req, res) => {
         req.user.totalExpenses=totalExpenses;
 
 
-        await expense.deleteOne(); //delete the document.
-        await req.user.save();
+        await expense.deleteOne(); //delete the document and returns operation info not the deleted document
+        await req.user.save(); //updating the totalexpenses
 
         // await req.user.update({totalExpenses:totalExpenses},{transaction:t});
         // console.log(expense);

@@ -45,10 +45,10 @@ app.use(cors());
 //express.static() is a function that takes a path, and returns a middleware that serves all files in that path.
 app.use(express.static(path.join(__dirname, 'public')));
 
-//option {extended:false} configures the middleware to use the classic encoding algorithm
-app.use(bodyParser.json({extended:false}));
 
-app.use(bodyParser.urlencoded({extended:true}));
+// Parse incoming JSON requests and make data available in req.body
+app.use(bodyParser.json());
+
 
 app.use(userRouter);
 app.use(expenseRouter);
