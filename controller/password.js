@@ -134,7 +134,7 @@ exports.resetPassword = async (req, res) => {
                                                     <main>
                                                         <div class="flex flex-col justify-center items-center">
                                                             
-                                                            <form action="/updatepassword/${uid}" method="get" id="reset-form" class="mt-5">
+                                                            <form action="/updatepassword/${uid}" method="post" id="reset-form" class="mt-5">
                                                                 
                                                                 <div class="relative mt-5 mx-2 text-red-500" id="forgot-msg"></div>
                                                                 <!-- //get method so password will go in key value pair in url after question mark eg. /password/updatepassword/uid?password=123; 
@@ -172,6 +172,9 @@ exports.resetPassword = async (req, res) => {
             res.end();
 
         }
+        else{
+            res.status(500).json({ success: false, err: "link not active" });
+        }
     }
     catch (err) {
         console.log(err);
@@ -187,7 +190,7 @@ exports.updatePassword = async (req, res) => {
     try {
 
         const uid = req.params.uid;           //eg. /password/updatepassword/uid
-        const newPassword = req.query.password;  //eg. /password/updatepassword/uid?password=123;
+        const newPassword = req.body.password;  //eg. /password/updatepassword/uid?password=123;
 
         // console.log("NEWPASSWORD == ",newPassword)
 

@@ -10,6 +10,6 @@ router.post('/forgotpassword',passwordController.forgotPassword);
 
 router.get('/resetpassword/:uid',passwordController.resetPassword);
 
-router.get('/updatepassword/:uid',passwordController.updatePassword);
+router.post('/updatepassword/:uid',passwordController.updatePassword);
 
 module.exports=router;

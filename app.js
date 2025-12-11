@@ -49,6 +49,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 // Parse incoming JSON requests and make data available in req.body
 app.use(bodyParser.json());
 
+app.use(bodyParser.urlencoded({ extended: true })); // For form POST data in reset password form which makes data available in req.body.
 
 app.use(userRouter);
 app.use(expenseRouter);
