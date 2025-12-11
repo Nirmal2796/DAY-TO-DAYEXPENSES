@@ -4,7 +4,7 @@ const fs=require('fs');
 const express = require('express');
 
 const cors=require('cors');
-const helemt=require('helmet');
+const helmet=require('helmet');
 const morgan=require('morgan');
 
 require('dotenv').config(); 
@@ -32,10 +32,14 @@ const passwordRouter=require('./routes/password');
 
 const accessLogStream=fs.createWriteStream(path.join(__dirname, 'access.log'),{flags:'a'})
 
-app.use(helemt({ contentSecurityPolicy: false }));
-app.use(morgan('combined',{stream:accessLogStream}));
+// Adds security headers to protect the app from common attacks
+app.use(helmet({ contentSecurityPolicy: false })); 
+
+// Logs all API requests in detail and writes them to accessLogStream (file)
+app.use(morgan('combined',{stream:accessLogStream})); 
 
 
+// Allows backend to accept requests from other domains (frontend can access API)
 app.use(cors());
 
 //express.static() is a function that takes a path, and returns a middleware that serves all files in that path.
