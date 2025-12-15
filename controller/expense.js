@@ -46,7 +46,7 @@ exports.addExpense = async (req, res) => {
     try {
 
         const amount = req.body.amount;
-        const category = req.body.category;
+        // const category = req.body.category;
         const description = req.body.description;
 
         const page=Number(req.query.page) || 1;

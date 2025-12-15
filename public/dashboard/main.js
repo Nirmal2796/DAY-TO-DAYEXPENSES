@@ -117,7 +117,7 @@ async function onSubmit(e) {
             expense = {
                 amount: amount.value,
                 description: desc.value,
-                category: category.value
+                // category: category.value
             };
 
             const rowsperpage=localStorage.getItem('rowsPerPage');
