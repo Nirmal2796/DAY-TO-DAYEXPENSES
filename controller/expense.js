@@ -1,3 +1,7 @@
+const { GoogleGenAI } = require("@google/genai");
+
+const ai = new GoogleGenAI({apiKey:process.env.GEMINI_API_KEY});
+
 const Expense = require('../models/expense');
 
 const pageDataService=require('../services/pageDataService');
@@ -53,18 +57,26 @@ exports.addExpense = async (req, res) => {
         
         // console.log(totalExpenses);
 
-        const expense = new Expense({ //instantiate an object 
+
+        const response = await ai.models.generateContent({
+            model: "gemini-2.5-flash",
+            contents: `Give me one category for ${description}. i am trying to create expense tracker. Focus on the item, not the activity or context. Return only one category. Use one simple word or two-word category .No explanation`,
+        });
+
+        // console.log(response.text);
+
+        const expense = new Expense({ //create an object 
             amount: amount,
-            category: category,
+            category: response.text,
             description: description,
             date: new Date(),
             userId:req.user
         });
 
-        req.user.totalExpenses=totalExpensesUser;
+        req.user.totalExpenses=totalExpensesUser; //updating totalExpense of the user
 
         await expense.save(); //create document by calling save method on that object.
-        await req.user.save();
+        await req.user.save();  //saving totalExpense of the user
 
         // await req.user.update({totalExpenses:totalExpensesUser},{transaction:t});
 
