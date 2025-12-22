@@ -31,7 +31,7 @@ exports.purchasePremium = async (req, res) => {
 
                 // console.log(userOrder);
 
-                const userOrder = new Order({ ////instantiate an object 
+                const userOrder = new Order({ //instantiate an object 
                     orderid: order.id,
                     status: 'PENDING',
                     userId:req.user
@@ -63,7 +63,7 @@ exports.updateTransaction = async (req, res) => {
 
         const { order_id, payment_id, status } = req.body;
 
-        console.log(order_id, 'paymentid ', payment_id, 'status', status);
+        // console.log(order_id, 'paymentid ', payment_id, 'status', status);
         const order = await Order.findOne({  orderid: order_id } );
         // console.log(order);
         // let update1;

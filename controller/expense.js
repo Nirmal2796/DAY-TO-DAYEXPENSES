@@ -15,8 +15,8 @@ exports.getExpenses = async (req, res) => {
 
         const totalExpenses=await Expense.countDocuments({userId:req.user._id});
 
-        const offset=(page-1) * expenses_per_page;
-        const limit=expenses_per_page;
+        const offset=(page-1) * expenses_per_page; //to skip no.of records 
+        const limit=expenses_per_page;             //to send only limited records.
 
 
         const expenses=await Expense.find({userId:req.user._id})
@@ -57,7 +57,7 @@ exports.addExpense = async (req, res) => {
         
         // console.log(totalExpenses);
 
-
+        //generate category using gemini.
         const response = await ai.models.generateContent({
             model: "gemini-2.5-flash",
             contents: `Give me one category for ${description}. i am trying to create expense tracker. Focus on the item, not the activity or context. Return only one category. Use one simple word or two-word category .No explanation`,
@@ -67,7 +67,7 @@ exports.addExpense = async (req, res) => {
 
         const expense = new Expense({ //create an object 
             amount: amount,
-            category: response.text,
+            category: response.text, //we got from gemini
             description: description,
             date: new Date(),
             userId:req.user

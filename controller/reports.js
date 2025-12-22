@@ -57,7 +57,7 @@ exports.getMonthReport = async (req, res) => {
         const page=Number(req.query.page) || 1;
         const expenses_per_page=Number(req.query.limit);
 
-        //JavaScript months 0-based
+        //JavaScript months are 0-based
         const start=new Date(year,month-1,1);
         const end=new Date(year,month,1);
 

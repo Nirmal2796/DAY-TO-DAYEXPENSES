@@ -108,6 +108,7 @@ exports.resetPassword = async (req, res) => {
             request.isActive=false; //update the isActive 
             await request.save();   //after update save it.
 
+            // Prevent caching of reset password page (security: avoids token reuse via back button or cache)
             res.set('Cache-Control', 'no-cache, no-store, must-revalidate');
             
             res.status(200).send(`<html lang="en">
